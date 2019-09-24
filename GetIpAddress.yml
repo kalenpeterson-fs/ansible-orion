@@ -12,15 +12,6 @@
       private: no
     - name: orion_password
   tasks:
-    # - name: "Install pip"
-    #   easy_install:
-    #     name: pip
-    #     state: present
-    #   become: yes
-    # - name: "Install orionsdk"
-    #   pip:
-    #     name: orionsdk
-    #   become: yes
     - name: "Get IP"
       orion_ipam_record:
         subnet: "{{ subnet }}"
