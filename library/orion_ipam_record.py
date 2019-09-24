@@ -94,10 +94,11 @@ ip_address:
 
 from ansible.module_utils.basic import AnsibleModule
 import os
+import requests
+requests.packages.urllib3.disable_warnings()
 
 try:
     from orionsdk import SwisClient
-    requests.packages.urllib3.disable_warnings()
     HAS_ORION = True
 except:
     HAS_ORION = False
