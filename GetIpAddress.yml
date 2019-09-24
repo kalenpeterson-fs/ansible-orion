@@ -1,0 +1,29 @@
+---
+- name: "Get IP Address from Orion"
+  connection: local
+  gather_facts: false
+  hosts: localhost
+  tasks:
+    - name: "Install pip"
+      easy_install:
+        name: pip
+        state: present
+      become: yes
+    - name: "Install orionsdk"
+      pip:
+        name: orionsdk
+      become: yes
+    - name: "Get Subnet"
+      rb_subnets:
+        business_unit: "Test Unit"
+      register: rb_subnet_result
+    - name: "Get IP"
+      orion_ipam_record:
+        subnet: "{{ rb_subnet_result.subnet }}"
+        orion_server: 'orion.com'
+        orion_username: 'orion_user'
+        orion_password: 'orion_pass'
+      register: orion_ipam_result
+    - name: "Print IP"
+      debug:
+        msg: "{{ orion_ipam_result.ip_address }}"
