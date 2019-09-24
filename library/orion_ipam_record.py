@@ -147,13 +147,14 @@ def run_module():
     # Send Request for top {retry_limit} IP Addresses
     swis = SwisClient(module.params['orion_server'], module.params['orion_username'], module.params['orion_password'])
     try:
-        results = swis.query("SELECT TOP 5 I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet", subnet=module.params['subnet'])
+        query = "SELECT TOP {0} I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet"
+        results = swis.query(query.format(str(retry_limit)), subnet=module.params['subnet'])
     except:
         module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password {0}".format(str(e)), **result)
 
 
     # Find a Valid/Free IP from the request
-    for i in range(module.params['retry_default']):
+    for i in range(module.params['retry_limit']):
 
         # Check if there was a valid request
         if not results["results"][i]:
@@ -163,10 +164,10 @@ def run_module():
         if module.params['ping_test']:
             ping_response = os.system("ping -c 1 " + results["results"][i]['IPAddress'])
             if ping_response == 0:
-                print("{ip_address} is Alive")
+                print("{0} is Alive".format(ip_address))
                 continue
             else:
-                print("{ip_address} is Not Alive")
+                print("{0} is Not Alive".format(ip_address))
                 ip_address = results["results"][i]['IPAddress']
                 uri = results["results"][i]['Uri']
                 break
