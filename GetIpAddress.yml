@@ -3,7 +3,7 @@
   connection: local
   gather_facts: false
   hosts: localhost
-  vars_promp:
+  vars_prompt:
     - name: subnet
       private: no
     - name: orion_server
