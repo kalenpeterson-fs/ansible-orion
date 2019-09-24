@@ -147,7 +147,7 @@ def run_module():
     # Send Request for top {retry_limit} IP Addresses
     swis = SwisClient(module.params['orion_server'], module.params['orion_username'], module.params['orion_password'])
     try:
-        results = swis.query("SELECT TOP {retry_limit} I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet", subnet=module.params['subnet'])
+        results = swis.query("SELECT TOP 5 I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet", subnet=module.params['subnet'])
     except:
         module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password {0}".format(str(e)), **result)
 
