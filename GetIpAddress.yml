@@ -3,26 +3,30 @@
   connection: local
   gather_facts: false
   hosts: localhost
+  vars_promp:
+    - name: subnet
+      private: no
+    - name: orion_server
+      private: no
+    - name: orion_username
+      private: no
+    - name: orion_password
   tasks:
-    - name: "Install pip"
-      easy_install:
-        name: pip
-        state: present
-      become: yes
-    - name: "Install orionsdk"
-      pip:
-        name: orionsdk
-      become: yes
-    - name: "Get Subnet"
-      rb_subnets:
-        business_unit: "Test Unit"
-      register: rb_subnet_result
+    # - name: "Install pip"
+    #   easy_install:
+    #     name: pip
+    #     state: present
+    #   become: yes
+    # - name: "Install orionsdk"
+    #   pip:
+    #     name: orionsdk
+    #   become: yes
     - name: "Get IP"
       orion_ipam_record:
-        subnet: "{{ rb_subnet_result.subnet }}"
-        orion_server: 'orion.com'
-        orion_username: 'orion_user'
-        orion_password: 'orion_pass'
+        subnet: "{{ subnet }}"
+        orion_server: "{{ orion_server }}"
+        orion_username: "{{ orion_username }}"
+        orion_password: "{{ orion_password }}"
       register: orion_ipam_result
     - name: "Print IP"
       debug:

@@ -65,9 +65,11 @@ from ansible.module_utils.basic import AnsibleModule
 import re
 import requests
 import sys
+import json
 
 try:
     from orionsdk import SwisClient
+    requests.packages.urllib3.disable_warnings()
     HAS_ORION = True
 except:
     HAS_ORION = False
@@ -111,23 +113,30 @@ def run_module():
 
     # manipulate or modify the state as needed (this is going to be the
     # part where your module will do what it needs to do)
-    #result['original_message'] = module.params['name']
-    #result['message'] = 'goodbye'
 
     # Send Request
-    #swis = SwisClient(npm_server, username, password)
-    #
-    #try:
-    #    results = swis.query("SELECT TOP 1 I.Status, I.DisplayName FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet", subnet= subnet)
-    #except:
-    #    module.fail_json(msg="Failed to query Otion. Check orion_hostname, orion_username, and orion_password {0}".format(str(e)))
+    swis = SwisClient(module.params['orion_server'], module.params['orion_username'], module.params['orion_password'])
+    try:
+        results = swis.query("SELECT TOP 1 I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet", subnet=module.params['subnet'])
+    except:
+        module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password {0}".format(str(e)))
 
-    # Check Request
-    #if results['results'][0]:
-    #    result['ip_adress'] = results['results'][0]['DisplayName']
-    #else
-    #    module.fail_json(msg='Failed to find an available IP address'i, **result)
-    result['ip_address'] = module.params['subnet'].split('/')[0]
+    #Check Request
+    if results["results"][0]:
+        result['ip_address'] = results["results"][0]['IPAddress']
+        uri = results["results"][0]['Uri']
+    else:
+        module.fail_json(msg='Failed to find an available IP address')
+
+    try:
+        swis.update(uri, Status="Used")
+    except:
+        module.fail_json(msg="Failed to update status {0}".format(str(e)))
+
+    try:
+        swis.update(uri, Comments="Updated by Ansible")
+    except:
+        module.fail_json(msg="Failed to update comment {0}".format(str(e)))      
 
     # use whatever logic you need to determine whether or not this module
     # made any modifications to your target
