@@ -115,10 +115,6 @@ def run_module():
         retry_limit=dict(type='int', required=False, default=5)
     )
 
-    # Check for ORION
-    if not HAS_ORION:
-        module.fail_json(msg="orionsdk is required for this module. please install it")
-
     # seed the result dict in the object
     # we primarily care about changed and state
     # change is if this module effectively modified the target
@@ -136,6 +132,10 @@ def run_module():
         argument_spec=module_args,
         supports_check_mode=True
     )
+
+    # Check for ORION
+    if not HAS_ORION:
+        module.fail_json(msg="orionsdk is required for this module. please install it")
 
     # if the user is working with this module in only check mode we do not
     # want to make any changes to the environment, just return the current
