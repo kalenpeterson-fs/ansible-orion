@@ -147,10 +147,10 @@ def run_module():
     # Send Request for top {retry_limit} IP Addresses
     swis = SwisClient(module.params['orion_server'], module.params['orion_username'], module.params['orion_password'])
     try:
-        query = "SELECT TOP {0} I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet"
-        results = swis.query(query.format(str(retry_limit)), subnet=module.params['subnet'])
+        query = "SELECT TOP {0} I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet".format(str(module.params['retry_limit']))
+        results = swis.query(query, subnet=module.params['subnet'])
     except:
-        module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password {0}".format(str(e)), **result)
+        module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password", **result)
 
 
     # Find a Valid/Free IP from the request
@@ -181,19 +181,19 @@ def run_module():
         try:
             swis.update(uri, Status=module.params['new_ip_status'])
         except:
-            module.fail_json(msg="Failed to update status {0}".format(str(e)), **result)
+            module.fail_json(msg="Failed to update status", **result)
 
         # Set the Comments
         try:
             swis.update(uri, Comments=module.params['new_ip_comments'])
         except:
-            module.fail_json(msg="Failed to update comment {0}".format(str(e)), **result)
+            module.fail_json(msg="Failed to update comment", **result)
 
         # Set SkipScan to False
         try:
             swis.update(uri, SkipScan=False)
         except:
-            module.fail_json(msg="Failed to set SkipScan to False {0}".format(str(e)), **result)
+            module.fail_json(msg="Failed to set SkipScan to False", **result)
 
         # Set the Module Result
         result['ip_address'] = ip_address
