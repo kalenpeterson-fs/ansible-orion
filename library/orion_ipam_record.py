@@ -175,6 +175,7 @@ def run_module():
         else:
             ip_address = results["results"][i]['IPAddress']
             uri = results["results"][i]['Uri']
+            break
 
     # Did we get an OK IP Address?
     if ip_address:
