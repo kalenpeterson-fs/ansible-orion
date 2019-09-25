@@ -163,7 +163,8 @@ def run_module():
 
         # Perform a Ping Test
         if module.params['ping_test']:
-            ping_response = os.system("/usr/bin/ping -c 1 -W 3 {0}".format(results["results"][i]['IPAddress']))
+            ping_cmd = "/usr/bin/ping -c 1 -W 3 {}".format(results["results"][i]['IPAddress'])
+            ping_response = os.system(ping_cmd)
             module.fail_json(msg="Ping Response for {1} is {0}".format(ping_response,results["results"][i]['IPAddress']), **result)
             if ping_response == 0:
                 print("{0} is Alive".format(results["results"][i]['IPAddress']))
