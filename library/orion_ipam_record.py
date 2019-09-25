@@ -166,9 +166,11 @@ def run_module():
             ping_response = os.system("ping -c 1 -W 3 {0}".format(results["results"][i]['IPAddress']))
             if ping_response == 0:
                 print("{0} is Alive".format(results["results"][i]['IPAddress']))
+                module.fail_json(msg="{0} is Alive".format(results["results"][i]['IPAddress']), **result)
                 continue
             else:
                 print("{0} is Not Alive".format(results["results"][i]['IPAddress']))
+                module.fail_json(msg="{0} is Not Alive".format(results["results"][i]['IPAddress']), **result)
                 ip_address = results["results"][i]['IPAddress']
                 uri = results["results"][i]['Uri']
                 break
