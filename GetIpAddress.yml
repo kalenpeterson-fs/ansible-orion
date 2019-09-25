@@ -20,6 +20,7 @@
         orion_password: "{{ orion_password }}"
       register: orion_ipam_result
       become: true
+      delegate_to: localhost
     - name: "Print IP"
       debug:
         msg: "{{ orion_ipam_result.ip_address }}"
