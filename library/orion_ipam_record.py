@@ -185,7 +185,7 @@ def run_module():
 
         # Set the Comments
         try:
-            swis.update(uri, Comments=module.params['new_ip_comments'])
+            swis.update(uri, Comments="{0}".format(module.params['new_ip_comments']))
         except:
             module.fail_json(msg="Failed to update comment", **result)
 
