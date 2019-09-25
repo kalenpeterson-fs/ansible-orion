@@ -19,6 +19,7 @@
         orion_username: "{{ orion_username }}"
         orion_password: "{{ orion_password }}"
       register: orion_ipam_result
+      become: true
     - name: "Print IP"
       debug:
         msg: "{{ orion_ipam_result.ip_address }}"
