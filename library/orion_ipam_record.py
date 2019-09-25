@@ -93,7 +93,7 @@ ip_address:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import os
+import subprocess
 import sys
 import requests
 requests.packages.urllib3.disable_warnings()
@@ -164,9 +164,9 @@ def run_module():
         # Perform a Ping Test
         if module.params['ping_test']:
             #ping_cmd = "/usr/bin/ping {}".format(results["results"][i]['IPAddress'])
-            ping_cmd = "/usr/bin/ping 10.227.201.100"
+            #ping_cmd = "/usr/bin/ping 10.227.201.100"
             #module.fail_json(msg=ping_cmd, **result)
-            ping_response = os.system(ping_cmd)
+            ping_response = subprocess.call(['ping','-c','1','10.227.201.100'])
             module.fail_json(msg="Ping Response for {1} is {0}".format(ping_response,results["results"][i]['IPAddress']), **result)
             if ping_response == 0:
                 print("{0} is Alive".format(results["results"][i]['IPAddress']))
