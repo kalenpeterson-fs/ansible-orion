@@ -1,6 +1,6 @@
 ---
 - name: "Get IP Address from Orion"
-  connection: local
+  connection: ssh
   gather_facts: false
   hosts: localhost
   vars_prompt:
