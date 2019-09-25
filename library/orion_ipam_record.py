@@ -94,6 +94,7 @@ ip_address:
 
 from ansible.module_utils.basic import AnsibleModule
 import os
+import sys
 import requests
 requests.packages.urllib3.disable_warnings()
 
@@ -150,7 +151,8 @@ def run_module():
         query = "SELECT TOP {0} I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet".format(str(module.params['retry_limit']))
         results = swis.query(query, subnet=module.params['subnet'])
     except:
-        module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password", **result)
+        e = sys.exc_info()[0]
+        module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password: {0}".format(str(e)), **result)
 
 
     # Find a Valid/Free IP from the request
@@ -181,19 +183,22 @@ def run_module():
         try:
             swis.update(uri, Status=module.params['new_ip_status'])
         except:
-            module.fail_json(msg="Failed to update status", **result)
+            e = sys.exc_info()[0]
+            module.fail_json(msg="Failed to update status: {0}".format(str(e)), **result)
 
         # Set the Comments
         try:
             swis.update(uri, Comments="{0}".format(module.params['new_ip_comments']))
         except:
-            module.fail_json(msg="Failed to update comment", **result)
+            e = sys.exc_info()[0]
+            module.fail_json(msg="Failed to update comment: {0}".format(str(e)), **result)
 
         # Set SkipScan to False
         try:
             swis.update(uri, SkipScan=False)
         except:
-            module.fail_json(msg="Failed to set SkipScan to False", **result)
+            e = sys.exc_info()[0]
+            module.fail_json(msg="Failed to set SkipScan to False: {0}".format(str(e)), **result)
 
         # Set the Module Result
         result['ip_address'] = ip_address
