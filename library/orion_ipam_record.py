@@ -164,10 +164,10 @@ def run_module():
         if module.params['ping_test']:
             ping_response = os.system("ping -c 1 " + results["results"][i]['IPAddress'])
             if ping_response == 0:
-                print("{0} is Alive".format(ip_address))
+                print("{0} is Alive".format(results["results"][i]['IPAddress']))
                 continue
             else:
-                print("{0} is Not Alive".format(ip_address))
+                print("{0} is Not Alive".format(results["results"][i]['IPAddress']))
                 ip_address = results["results"][i]['IPAddress']
                 uri = results["results"][i]['Uri']
                 break
