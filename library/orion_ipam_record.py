@@ -150,8 +150,7 @@ def run_module():
     try:
         query = "SELECT TOP {0} I.Status, I.IPAddress, I.DisplayName, Uri, I.Comments FROM IPAM.IPNode I WHERE Status=2 AND I.Subnet.DisplayName = @subnet".format(str(module.params['retry_limit']))
         results = swis.query(query, subnet=module.params['subnet'])
-    except:
-        e = sys.exc_info()[0]
+    except Exception as e:
         module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password: {0}".format(str(e)), **result)
 
 
@@ -182,22 +181,19 @@ def run_module():
         # Set the Status
         try:
             swis.update(uri, Status=module.params['new_ip_status'])
-        except:
-            e = sys.exc_info()[0]
+        except Exception as e:
             module.fail_json(msg="Failed to update status: {0}".format(str(e)), **result)
 
         # Set the Comments
         try:
             swis.update(uri, Comments="{0}".format(module.params['new_ip_comments']))
-        except:
-            e = sys.exc_info()[0]
+        except Exception as e:
             module.fail_json(msg="Failed to update comment: {0}".format(str(e)), **result)
 
         # Set SkipScan to False
         try:
             swis.update(uri, SkipScan=False)
-        except:
-            e = sys.exc_info()[0]
+        except Exception as e:
             module.fail_json(msg="Failed to set SkipScan to False: {0}".format(str(e)), **result)
 
         # Set the Module Result
