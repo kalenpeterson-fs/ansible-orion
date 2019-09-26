@@ -1,25 +1,24 @@
 --- 
-- name: "Create a VM from  template"
+- name: "Add/Change VM Disks"
   connection: local
   gather_facts: false
   hosts: localhost
   vars:
     server_name: 'w12test01'
-    vm_disks:
-      - size_gb: 40
-        drive_letter: C
-        volume_name: "C Drive"
-      - size_gb: 20
-        drive_letter: D
-        volume_name: "D Drive"
-      - size_gb: 10
-        drive_letter: E
-        volume_name: "E Drive"
+    vm_disks: []
+      #- size_gb: 40
+      #  drive_letter: C
+      #  volume_name: "C Drive"
+      #- size_gb: 20
+      #  drive_letter: D
+      #  volume_name: "D Drive"
+      #- size_gb: 10
+      #  drive_letter: E
+      #  volume_name: "E Drive"
     vm_disk_type: thin
     vm_datastore: 'node10_local'
     vm_datacenter: 'nucpod01'
     
-
   tasks:
     - name: Expand OS Disk if Required
       vmware_guest_disk:
