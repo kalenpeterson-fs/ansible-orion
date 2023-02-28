@@ -1,0 +1,16 @@
+---
+namespace: "kalenpeterson"
+description: Orion SDK Custom Module
+name: "orion_ipam"
+version: "1.0.2"
+readme: "README.md"
+authors:
+    - "Kalen Peterson"
+    - "Callie Howard"
+license:
+    - "MIT"
+tags:
+    - orion
+    - collection
+    - record
+repository: "https://github.com/kalenpeterson/ansible-orion"

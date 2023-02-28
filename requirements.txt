@@ -1,0 +1,2 @@
+orionsdk>=0.3.0
+requests>=2.28.2,<3.0
