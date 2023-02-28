@@ -3,11 +3,8 @@
 # Copyright: (c) 2019, Kalen Peterson <kalen.peterson@siriuscom.com>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
-ANSIBLE_METADATA = {
-    'metadata_version': '0.2',
-    'status': ['preview'],
-    'supported_by': 'community'
-}
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 
 DOCUMENTATION = '''
 ---
@@ -15,7 +12,7 @@ module: orion_ipam_record
 
 short_description: Manage Solarwinds Orion IPAM Records
 
-version_added: "2.8"
+version_added: "3.8"
 
 description:
     - "This module currently only supported requesting new IP Addresses in a given subnet"
@@ -169,11 +166,11 @@ def run_module():
             ping_response = subprocess.check_output(['ping','-c','1','10.227.201.100'])
             module.fail_json(msg="Ping Response for {1} is {0}".format(ping_response,results["results"][i]['IPAddress']), **result)
             if ping_response == 0:
-                print("{0} is Alive".format(results["results"][i]['IPAddress']))
+                print(("{0} is Alive".format(results["results"][i]['IPAddress'])))
                 module.fail_json(msg="{0} is Alive".format(results["results"][i]['IPAddress']), **result)
                 continue
             else:
-                print("{0} is Not Alive".format(results["results"][i]['IPAddress']))
+                print(("{0} is Not Alive".format(results["results"][i]['IPAddress'])))
                 module.fail_json(msg="{0} is Not Alive".format(results["results"][i]['IPAddress']), **result)
                 ip_address = results["results"][i]['IPAddress']
                 uri = results["results"][i]['Uri']
@@ -214,6 +211,7 @@ def run_module():
 
 def main():
     run_module()
+    import pdb; pdb.set_trace()
 
 if __name__ == '__main__':
     main()
