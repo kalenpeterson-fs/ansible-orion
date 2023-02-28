@@ -1,7 +1,7 @@
 ---
 namespace: "kalenpeterson_orion_sdk"
 name: "orion_ipam_record"
-version: "1.0.1"
+version: "1.0.2"
 readme: "README.md"
 authors:
     - "Kalen Peterson"
