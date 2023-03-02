@@ -1,6 +1,6 @@
-FROM quay.io/ansible/awx-ee:21.12.0
+FROM registry.redhat.io/ansible-automation-platform-21/ee-supported-rhel8:latest
 
-COPY requiremens.txt /
+COPY requirements.txt ./
 
 RUN pip install --upgrade pip && \
     pip install --upgrade -r ./requirements.txt
