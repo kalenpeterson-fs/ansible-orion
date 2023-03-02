@@ -6,8 +6,15 @@ This collection provides a module "orion_ipam_record" that retrieves an IP addre
 Requirements
 ------------
 
+The follwing python packages are required
 orionsdk>=0.3.0
 requests>=2.28.2,<3.0
+ping3>=4.04,<5.0
+
+When running in an execution environment, ping must be enabled on the host with the following command.
+  sysctl -w "net.ipv4.ping_group_range=0 2000000" >> /etc/sysctl.conf
+
+Reference: https://access.redhat.com/solutions/6859851
 
 Role Variables
 --------------

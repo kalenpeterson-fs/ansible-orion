@@ -2,7 +2,7 @@
 namespace: "kalenpeterson"
 description: Solarwinds Orion IPAM record creator
 name: "orion_ipam"
-version: "1.0.2"
+version: "1.1.0"
 readme: "README.md"
 authors:
     - "Kalen Peterson"

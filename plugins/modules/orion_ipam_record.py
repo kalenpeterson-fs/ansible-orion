@@ -89,8 +89,7 @@ ip_address:
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-import subprocess
-import sys
+from ping3 import ping
 import requests
 requests.packages.urllib3.disable_warnings()
 
@@ -159,17 +158,11 @@ def run_module():
 
         # Perform a Ping Test
         if module.params['ping_test']:
-            #ping_cmd = "/usr/bin/ping {}".format(results["results"][i]['IPAddress'])
-            #ping_cmd = "/usr/bin/ping 10.227.201.100"
-            #module.fail_json(msg=ping_cmd, **result)
-            ping_response = subprocess.check_output(['ping','-c','1','10.227.201.100'])
-            module.fail_json(msg="Ping Response for {1} is {0}".format(ping_response,results["results"][i]['IPAddress']), **result)
-            if ping_response == 0:
-                print(("{0} is Alive".format(results["results"][i]['IPAddress'])))
+            ping_response = ping(results["results"][i]['IPAddress'])
+            if ping_response:
                 module.fail_json(msg="{0} is Alive".format(results["results"][i]['IPAddress']), **result)
                 continue
             else:
-                print(("{0} is Not Alive".format(results["results"][i]['IPAddress'])))
                 module.fail_json(msg="{0} is Not Alive".format(results["results"][i]['IPAddress']), **result)
                 ip_address = results["results"][i]['IPAddress']
                 uri = results["results"][i]['Uri']
