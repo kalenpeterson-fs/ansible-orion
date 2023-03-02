@@ -166,10 +166,12 @@ def run_module():
         if module.params['ping_test']:
             ping_response = ping(results["results"][i]['IPAddress'])
             if ping_response:
-                module.fail_json(msg="{0} is Alive".format(results["results"][i]['IPAddress']), **result)
+                print(("{0} is Alive".format(results["results"][i]['IPAddress'])))
+                #module.fail_json(msg="{0} is Alive".format(results["results"][i]['IPAddress']), **result)
                 continue
             else:
-                module.fail_json(msg="{0} is Not Alive".format(results["results"][i]['IPAddress']), **result)
+                print(("{0} is Not Alive".format(results["results"][i]['IPAddress'])))
+                #module.fail_json(msg="{0} is Not Alive".format(results["results"][i]['IPAddress']), **result)
                 ip_address = results["results"][i]['IPAddress']
                 uri = results["results"][i]['Uri']
                 break
