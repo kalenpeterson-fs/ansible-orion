@@ -3,6 +3,8 @@
   connection: ssh
   gather_facts: false
   hosts: localhost
+  collections:
+    - kalenpeterson.orion_ipam
   vars_prompt:
     - name: subnet
       private: no
