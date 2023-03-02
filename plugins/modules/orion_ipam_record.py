@@ -102,10 +102,11 @@ requests.packages.urllib3.disable_warnings()
 try:
     from orionsdk import SwisClient
     HAS_ORION = True
-except:
+except Exception as err:
     HAS_ORION = False
 
 def run_module():
+
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
         subnet=dict(type='str', required=True),
@@ -154,7 +155,6 @@ def run_module():
     except Exception as e:
         module.fail_json(msg="Failed to query Orion. Check orion_server, orion_username, and orion_password: {0}".format(str(e)), **result)
 
-
     # Find a Valid/Free IP from the request
     for i in range(module.params['retry_limit']):
 
@@ -167,11 +167,9 @@ def run_module():
             ping_response = ping(results["results"][i]['IPAddress'])
             if ping_response:
                 print(("{0} is Alive".format(results["results"][i]['IPAddress'])))
-                #module.fail_json(msg="{0} is Alive".format(results["results"][i]['IPAddress']), **result)
                 continue
             else:
                 print(("{0} is Not Alive".format(results["results"][i]['IPAddress'])))
-                #module.fail_json(msg="{0} is Not Alive".format(results["results"][i]['IPAddress']), **result)
                 ip_address = results["results"][i]['IPAddress']
                 uri = results["results"][i]['Uri']
                 break
@@ -210,8 +208,12 @@ def run_module():
     module.exit_json(**result)
 
 def main():
+
     run_module()
-    import pdb; pdb.set_trace()
+    import pdb;
+    pdb.set_trace()
+
 
 if __name__ == '__main__':
     main()
+
