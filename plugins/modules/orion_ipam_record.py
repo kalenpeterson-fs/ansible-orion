@@ -1,5 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
+# Copyright: Kalen Peterson
 # The MIT License (MIT)
 
 from __future__ import (absolute_import, division, print_function)
@@ -11,10 +13,14 @@ module: orion_ipam_record
 
 short_description: Manage Solarwinds Orion IPAM Records
 
-version_added: "3.8"
+version_added: "2.9"
 
-description:
-    - "This module currently only supported requesting new IP Addresses in a given subnet"
+description: This module currently only supported requesting new IP Addresses in a given subnet
+
+requirements:
+    - orionsdk>=0.3.0
+    - requests>=2.28,<3.0
+    - ping3>=4.0,<5.0
 
 options:
     subnet:
@@ -36,7 +42,7 @@ options:
     new_ip_status:
         description:
             - The IPAM Record Status to set for the provisioned IP
-            - "Used", "Available", "Reserved", "Transient", "Blocked"
+            - '"Used", "Available", "Reserved", "Transient", "Blocked"'
         required: false
         default: "Used"
     new_ip_comment:
@@ -56,7 +62,7 @@ options:
         default: 5
 
 author:
-    - Kalen Peterson (@kpeterson-sirius)
+    - Kalen Peterson (kalen.peterson@cdw.com)
 '''
 
 EXAMPLES = '''
