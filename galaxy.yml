@@ -1,6 +1,6 @@
 ---
 namespace: "kalenpeterson"
-description: Orion SDK Custom Module
+description: Solarwinds Orion IPAM record creator
 name: "orion_ipam"
 version: "1.0.2"
 readme: "README.md"
@@ -10,7 +10,8 @@ authors:
 license:
     - "MIT"
 tags:
+    - solarwinds
+    - ipam
     - orion
     - collection
-    - record
 repository: "https://github.com/kalenpeterson/ansible-orion"
